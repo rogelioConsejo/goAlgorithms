@@ -5,17 +5,23 @@ import "fmt"
 type BubbleSorter struct {
 }
 
+//sorted is only used to make the method signature clearer
 func (b *BubbleSorter) Sort(input []int) (sorted []int) {
+	fmt.Printf("Initial: %+v\n", input)
 	for i:=0; i<len(input)-1 ; i++{
+		isSorted := true
 		for index, value := range input {
 			if index < len(input)-1 && value > input[index+1] {
 				input[index] = input[index+1]
 				input[index+1] = value
+				isSorted = false
 			}
+		}
+		fmt.Printf("Iteration %d: %+v\n", i, input)
+		if isSorted{
+			break
 		}
 	}
 
-	sorted = input
-	fmt.Printf("%+v", input)
-	return
+	return input
 }
