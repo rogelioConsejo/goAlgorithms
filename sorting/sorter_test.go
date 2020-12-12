@@ -5,7 +5,7 @@ import (
 )
 
 func TestIntSorter(t *testing.T) {
-	testArray := []int{5,3,7,2,1,9,8,6,6,0}
+	testArray := []int{5,3,7,18,1,9,8,6,6,0}
 	sorter := intSorter()
 
 	if isInitialized(sorter) {
@@ -37,5 +37,5 @@ func isNotOrdered(i int, i2 int) bool {
 }
 
 func intSorter() IntSorter{
-	return nil
+	return new(BubbleSorter)
 }
