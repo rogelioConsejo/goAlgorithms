@@ -3,21 +3,35 @@ package sorting
 import (
 	"fmt"
 	"math/rand"
+	"runtime"
 	"testing"
 	"time"
 )
+
+const (
+	bubble = "Bubble"
+	insertion = "Insertion"
+	merge = "Merge"
+)
+
+var sorters = map[string]IntSorter{
+	bubble: new(BubbleSorter),
+	insertion: new(InsertionSorter),
+	merge: new(MergeSorter),
+}
 
 
 //I extracted performTest() to be able to test all the sorting implementations in one test
 func TestIntSorter(t *testing.T) {
 	rand.Seed(time.Now().UTC().UnixNano())
-	//Test with a big pseudo-random array
-	println("Bubble")
-	performTest(t,bubbleSorter(), rand.Perm(100000))			// O(n^2)
-	println("Insertion")
-	performTest(t,insertionSorter(), rand.Perm(100000))			// O(n^2)
-	println("Merge")
-	performTest(t,mergeSorter(), rand.Perm(100000))			// O(n log n)
+	//Test with a big array
+	testArray := rand.Perm(100000)
+	println(bubble)
+	performTest(t,sorters[bubble], append([]int{},testArray...))			// O(n^2)
+	println(insertion)
+	performTest(t,sorters[insertion], append([]int{},testArray...))			// O(n^2)
+	println(merge)
+	performTest(t,sorters[merge], append([]int{},testArray...))			// O(n log n)
 }
 
 
@@ -25,6 +39,9 @@ func performTest(t *testing.T, sorter IntSorter, testArray []int){
 	if isInitialized(sorter) {
 		start := time.Now()
 		sorted := sorter.Sort(testArray)
+		m := &runtime.MemStats{}
+		runtime.ReadMemStats(m)
+		fmt.Printf("Mem (MB): %f\n", float64(m.Alloc)/1024/1024)
 		fmt.Printf("Time: %s\n", time.Since(start))
 		if areDifferentSize(testArray, sorted) {
 			t.Error("sorted array has invalid size")
@@ -51,14 +68,3 @@ func areNotOrdered(i int, i2 int) bool {
 	return !(i<=i2)
 }
 
-func bubbleSorter() IntSorter{
-	return new(BubbleSorter)
-}
-
-func insertionSorter() IntSorter{
-	return new(InsertionSorter)
-}
-
-func mergeSorter() IntSorter{
-	return new(MergeSorter)
-}
