@@ -1,25 +1,27 @@
 package sorting
 
 import (
+	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 
 //I extracted performTest() to be able to test all the sorting implementations in one test
 func TestIntSorter(t *testing.T) {
-	performTest(t,bubbleSorter(), []int{5,3,7,18,1,9,8,6,6,0})
-	performTest(t,bubbleSorter(), []int{5,3,7,4,1,9,8,6,6,18})
-	performTest(t,bubbleSorter(), []int{})
-	performTest(t,bubbleSorter(), []int{1})
-	performTest(t,bubbleSorter(), []int{1,1})
-	performTest(t,bubbleSorter(), []int{1,2})
-	performTest(t,bubbleSorter(), []int{2,1})
+	//Test with a big pseudo-random array
+	performTest(t,bubbleSorter(), rand.Perm(100000))			// O(n^2)
 }
+
 
 func performTest(t *testing.T, sorter IntSorter, testArray []int){
 
+
 	if isInitialized(sorter) {
+		start := time.Now()
 		sorted := sorter.Sort(testArray)
+		fmt.Printf("Time: %s\n", time.Since(start))
 		if areDifferentSize(testArray, sorted) {
 			t.Error("sorted array has invalid size")
 		}
@@ -31,6 +33,7 @@ func performTest(t *testing.T, sorter IntSorter, testArray []int){
 	} else {
 		t.Error("sorter not initialized")
 	}
+
 }
 
 func areDifferentSize(array1 []int, array2 []int) bool {

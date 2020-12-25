@@ -1,13 +1,10 @@
 package sorting
 
-import "fmt"
-
 type BubbleSorter struct {
 }
 
 //sorted is only used to make the method signature clearer
 func (b *BubbleSorter) Sort(input []int) (sorted []int) {
-	fmt.Printf("Initial: %+v\n", input)
 	for i:=0; i<len(input)-1 ; i++{
 		isSorted := true
 		for index, value := range input {
@@ -17,7 +14,6 @@ func (b *BubbleSorter) Sort(input []int) (sorted []int) {
 				isSorted = false
 			}
 		}
-		fmt.Printf("Iteration %d: %+v\n", i, input)
 		if isSorted{
 			break
 		}
