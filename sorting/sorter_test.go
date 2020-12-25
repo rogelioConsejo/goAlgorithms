@@ -11,7 +11,10 @@ import (
 //I extracted performTest() to be able to test all the sorting implementations in one test
 func TestIntSorter(t *testing.T) {
 	//Test with a big pseudo-random array
+	println("Bubble")
 	performTest(t,bubbleSorter(), rand.Perm(100000))			// O(n^2)
+	println("Insertion")
+	performTest(t,insertionSorter(), rand.Perm(100000))			// O(n^2)
 }
 
 
@@ -50,4 +53,8 @@ func isNotOrdered(i int, i2 int) bool {
 
 func bubbleSorter() IntSorter{
 	return new(BubbleSorter)
+}
+
+func insertionSorter() IntSorter{
+	return new(InsertionSorter)
 }
