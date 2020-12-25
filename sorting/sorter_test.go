@@ -10,11 +10,14 @@ import (
 
 //I extracted performTest() to be able to test all the sorting implementations in one test
 func TestIntSorter(t *testing.T) {
+	rand.Seed(time.Now().UTC().UnixNano())
 	//Test with a big pseudo-random array
 	println("Bubble")
 	performTest(t,bubbleSorter(), rand.Perm(100000))			// O(n^2)
 	println("Insertion")
 	performTest(t,insertionSorter(), rand.Perm(100000))			// O(n^2)
+	println("Merge")
+	performTest(t,mergeSorter(), rand.Perm(100000))			// O(n log n)
 }
 
 
@@ -27,7 +30,7 @@ func performTest(t *testing.T, sorter IntSorter, testArray []int){
 			t.Error("sorted array has invalid size")
 		}
 		for i := 0; i < len(sorted)-1; i++ {
-			if isNotOrdered(sorted[i], sorted[i+1]) {
+			if areNotOrdered(sorted[i], sorted[i+1]) {
 				t.Error("values not ordered")
 			}
 		}
@@ -44,7 +47,7 @@ func isInitialized(sorter IntSorter) bool {
 	return !(sorter == nil)
 }
 
-func isNotOrdered(i int, i2 int) bool {
+func areNotOrdered(i int, i2 int) bool {
 	return !(i<=i2)
 }
 
@@ -54,4 +57,8 @@ func bubbleSorter() IntSorter{
 
 func insertionSorter() IntSorter{
 	return new(InsertionSorter)
+}
+
+func mergeSorter() IntSorter{
+	return new(MergeSorter)
 }
