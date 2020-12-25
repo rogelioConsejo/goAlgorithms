@@ -19,8 +19,6 @@ func TestIntSorter(t *testing.T) {
 
 
 func performTest(t *testing.T, sorter IntSorter, testArray []int){
-
-
 	if isInitialized(sorter) {
 		start := time.Now()
 		sorted := sorter.Sort(testArray)
@@ -36,7 +34,6 @@ func performTest(t *testing.T, sorter IntSorter, testArray []int){
 	} else {
 		t.Error("sorter not initialized")
 	}
-
 }
 
 func areDifferentSize(array1 []int, array2 []int) bool {
